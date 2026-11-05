@@ -1,0 +1,44 @@
+# Retenção LGPD: apaga auditoria e histórico antigos. Monta o mesmo PVC (RWO) -> só roda no mesmo nó do pod da API.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: obs-api-purge
+  namespace: obs-api
+spec:
+  schedule: "17 3 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            runAsGroup: 10001
+            fsGroup: 10001
+            seccompProfile: {type: RuntimeDefault}
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - topologyKey: kubernetes.io/hostname
+                  labelSelector:
+                    matchLabels: {app: obs-api}
+          containers:
+            - name: purge
+              image: ghcr.io/arthurtheworld/pipeline-observability-api:0.1.0
+              args: ["python", "-m", "obs_api", "purge"]
+              envFrom:
+                - configMapRef: {name: obs-api-config}
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities: {drop: [ALL]}
+              volumeMounts:
+                - {name: data, mountPath: /data}
+          volumes:
+            - name: data
+              persistentVolumeClaim: {claimName: obs-api-data}

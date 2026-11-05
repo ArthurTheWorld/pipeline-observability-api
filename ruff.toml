@@ -1,0 +1,6 @@
+line-length = 130
+target-version = "py311"
+extend-exclude = ["tools/demo_dbt_project/target", "tools/demo_dbt_project/logs"]
+
+[lint]
+select = ["E", "F", "I", "W", "B", "UP"]

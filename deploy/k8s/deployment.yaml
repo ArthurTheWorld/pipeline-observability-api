@@ -1,0 +1,52 @@
+# SQLite em volume ReadWriteOnce => UMA réplica e estratégia Recreate (sem HPA). Escalar exigiria trocar o store por Postgres.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: obs-api
+  namespace: obs-api
+  labels: {app: obs-api}
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {app: obs-api}
+  template:
+    metadata:
+      labels: {app: obs-api}
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile: {type: RuntimeDefault}
+      containers:
+        - name: api
+          image: ghcr.io/arthurtheworld/pipeline-observability-api:0.1.0
+          ports:
+            - {name: http, containerPort: 8000}
+          envFrom:
+            - configMapRef: {name: obs-api-config}
+            - secretRef: {name: obs-api-keys}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          livenessProbe:
+            httpGet: {path: /health, port: http}
+            periodSeconds: 20
+          readinessProbe:
+            httpGet: {path: /ready, port: http}
+            periodSeconds: 10
+          resources:
+            requests: {cpu: 50m, memory: 128Mi}
+            limits: {cpu: 500m, memory: 256Mi}
+          volumeMounts:
+            - {name: data, mountPath: /data}
+            - {name: tmp, mountPath: /tmp}
+      volumes:
+        - name: data
+          persistentVolumeClaim: {claimName: obs-api-data}
+        - name: tmp
+          emptyDir: {}

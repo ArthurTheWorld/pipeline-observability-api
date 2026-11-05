@@ -1,0 +1,118 @@
+{
+ "metadata": {
+  "dbt_schema_version": "https://schemas.getdbt.com/dbt/sources/v3.json",
+  "dbt_version": "1.12.6",
+  "generated_at": "2026-11-04T05:40:02.594095Z",
+  "invocation_id": "8a7f9111-65e8-44e1-869e-f3f857dff109",
+  "invocation_started_at": "2026-11-04T05:40:01.803514Z",
+  "env": {}
+ },
+ "results": [
+  {
+   "unique_id": "source.demo.raw.fresh_orders",
+   "max_loaded_at": "2026-11-04T04:39:54.153514+00:00",
+   "snapshotted_at": "2026-11-04T05:40:02.553117+00:00",
+   "max_loaded_at_time_ago_in_s": 3608.399603,
+   "status": "pass",
+   "criteria": {
+    "warn_after": {
+     "count": 24,
+     "period": "hour"
+    },
+    "error_after": {
+     "count": 72,
+     "period": "hour"
+    },
+    "filter": null
+   },
+   "adapter_response": {
+    "_message": "OK"
+   },
+   "timing": [
+    {
+     "name": "compile",
+     "started_at": "2026-11-04T05:40:02.540866Z",
+     "completed_at": "2026-11-04T05:40:02.540871Z"
+    },
+    {
+     "name": "execute",
+     "started_at": "2026-11-04T05:40:02.541265Z",
+     "completed_at": "2026-11-04T05:40:02.556955Z"
+    }
+   ],
+   "thread_id": "Thread-1 (worker)",
+   "execution_time": 0.017230749130249023
+  },
+  {
+   "unique_id": "source.demo.raw.stale_orders",
+   "max_loaded_at": "2026-10-26T21:39:54.153514+00:00",
+   "snapshotted_at": "2026-11-04T05:40:02.567675+00:00",
+   "max_loaded_at_time_ago_in_s": 720008.414161,
+   "status": "error",
+   "criteria": {
+    "warn_after": {
+     "count": 24,
+     "period": "hour"
+    },
+    "error_after": {
+     "count": 72,
+     "period": "hour"
+    },
+    "filter": null
+   },
+   "adapter_response": {
+    "_message": "OK"
+   },
+   "timing": [
+    {
+     "name": "compile",
+     "started_at": "2026-11-04T05:40:02.560173Z",
+     "completed_at": "2026-11-04T05:40:02.560177Z"
+    },
+    {
+     "name": "execute",
+     "started_at": "2026-11-04T05:40:02.560676Z",
+     "completed_at": "2026-11-04T05:40:02.570717Z"
+    }
+   ],
+   "thread_id": "Thread-1 (worker)",
+   "execution_time": 0.011517047882080078
+  },
+  {
+   "unique_id": "source.demo.raw.warning_orders",
+   "max_loaded_at": "2026-11-02T23:39:54.153514+00:00",
+   "snapshotted_at": "2026-11-04T05:40:02.582245+00:00",
+   "max_loaded_at_time_ago_in_s": 108008.428731,
+   "status": "warn",
+   "criteria": {
+    "warn_after": {
+     "count": 24,
+     "period": "hour"
+    },
+    "error_after": {
+     "count": 720,
+     "period": "hour"
+    },
+    "filter": null
+   },
+   "adapter_response": {
+    "_message": "OK"
+   },
+   "timing": [
+    {
+     "name": "compile",
+     "started_at": "2026-11-04T05:40:02.573791Z",
+     "completed_at": "2026-11-04T05:40:02.573794Z"
+    },
+    {
+     "name": "execute",
+     "started_at": "2026-11-04T05:40:02.574215Z",
+     "completed_at": "2026-11-04T05:40:02.585062Z"
+    }
+   ],
+   "thread_id": "Thread-1 (worker)",
+   "execution_time": 0.012237310409545898
+  }
+ ],
+ "elapsed_time": 0.13813543319702148
+}

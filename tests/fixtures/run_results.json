@@ -1,0 +1,333 @@
+{
+ "metadata": {
+  "dbt_schema_version": "https://schemas.getdbt.com/dbt/run-results/v6.json",
+  "dbt_version": "1.12.6",
+  "generated_at": "2026-11-04T05:40:00.112400Z",
+  "invocation_id": "6205be9e-c3ec-491f-bc73-43b6bc98eea6",
+  "invocation_started_at": "2026-11-04T05:39:57.425339Z",
+  "env": {}
+ },
+ "results": [
+  {
+   "status": "error",
+   "timing": [
+    {
+     "name": "compile",
+     "started_at": "2026-11-04T05:39:59.746376Z",
+     "completed_at": "2026-11-04T05:39:59.752844Z"
+    },
+    {
+     "name": "execute",
+     "started_at": "2026-11-04T05:39:59.753636Z",
+     "completed_at": "2026-11-04T05:39:59.812631Z"
+    }
+   ],
+   "thread_id": "Thread-1 (worker)",
+   "execution_time": 0.07543396949768066,
+   "adapter_response": {},
+   "message": "Runtime Error in model broken_model (models/broken_model.sql)\n  Catalog Error: Table with name table_that_does_not_exist does not exist!\n  Did you mean \"information_schema.tables\"?",
+   "failures": null,
+   "unique_id": "model.demo.broken_model",
+   "compiled": true,
+   "compiled_code": "select * from table_that_does_not_exist",
+   "relation_name": "\"demo\".\"main\".\"broken_model\"",
+   "batch_results": null,
+   "overload_results": null
+  },
+  {
+   "status": "success",
+   "timing": [
+    {
+     "name": "compile",
+     "started_at": "2026-11-04T05:39:59.829876Z",
+     "completed_at": "2026-11-04T05:39:59.831891Z"
+    },
+    {
+     "name": "execute",
+     "started_at": "2026-11-04T05:39:59.832640Z",
+     "completed_at": "2026-11-04T05:39:59.958094Z"
+    }
+   ],
+   "thread_id": "Thread-1 (worker)",
+   "execution_time": 0.1306626796722412,
+   "adapter_response": {
+    "_message": "OK"
+   },
+   "message": "OK",
+   "failures": null,
+   "unique_id": "model.demo.stg_orders",
+   "compiled": true,
+   "compiled_code": "select order_id, customer_email, cpf, status, amount from raw.fresh_orders",
+   "relation_name": "\"demo\".\"main\".\"stg_orders\"",
+   "batch_results": null,
+   "overload_results": null
+  },
+  {
+   "status": "skipped",
+   "timing": [],
+   "thread_id": "Thread-1 (worker)",
+   "execution_time": 0,
+   "adapter_response": {},
+   "message": null,
+   "failures": null,
+   "unique_id": "model.demo.downstream_of_broken",
+   "compiled": false,
+   "compiled_code": null,
+   "relation_name": "\"demo\".\"main\".\"downstream_of_broken\"",
+   "batch_results": null,
+   "overload_results": null
+  },
+  {
+   "status": "fail",
+   "timing": [
+    {
+     "name": "compile",
+     "started_at": "2026-11-04T05:39:59.965526Z",
+     "completed_at": "2026-11-04T05:39:59.972674Z"
+    },
+    {
+     "name": "execute",
+     "started_at": "2026-11-04T05:39:59.973177Z",
+     "completed_at": "2026-11-04T05:40:00.008536Z"
+    }
+   ],
+   "thread_id": "Thread-1 (worker)",
+   "execution_time": 0.045748233795166016,
+   "adapter_response": {
+    "_message": "OK"
+   },
+   "message": "Got 1 result, configured to fail if != 0",
+   "failures": 1,
+   "unique_id": "test.demo.accepted_values_stg_orders_status__paid__pending.9b31cf59c5",
+   "compiled": true,
+   "compiled_code": "\n    \n    \n\nwith all_values as (\n\n    select\n        status as value_field,\n        count(*) as n_records\n\n    from \"demo\".\"main\".\"stg_orders\"\n    group by status\n\n)\n\nselect *\nfrom all_values\nwhere value_field not in (\n    'paid','pending'\n)\n\n\n",
+   "relation_name": null,
+   "batch_results": null,
+   "overload_results": null
+  },
+  {
+   "status": "fail",
+   "timing": [
+    {
+     "name": "compile",
+     "started_at": "2026-11-04T05:40:00.014524Z",
+     "completed_at": "2026-11-04T05:40:00.018214Z"
+    },
+    {
+     "name": "execute",
+     "started_at": "2026-11-04T05:40:00.018996Z",
+     "completed_at": "2026-11-04T05:40:00.031807Z"
+    }
+   ],
+   "thread_id": "Thread-1 (worker)",
+   "execution_time": 0.020392417907714844,
+   "adapter_response": {
+    "_message": "OK"
+   },
+   "message": "Got 1 result, configured to fail if != 0",
+   "failures": 1,
+   "unique_id": "test.demo.assert_customer_has_valid_cpf",
+   "compiled": true,
+   "compiled_code": "select order_id, cpf from \"demo\".\"main\".\"stg_orders\" where cpf like '000%'",
+   "relation_name": null,
+   "batch_results": null,
+   "overload_results": null
+  },
+  {
+   "status": "warn",
+   "timing": [
+    {
+     "name": "compile",
+     "started_at": "2026-11-04T05:40:00.037584Z",
+     "completed_at": "2026-11-04T05:40:00.041220Z"
+    },
+    {
+     "name": "execute",
+     "started_at": "2026-11-04T05:40:00.041989Z",
+     "completed_at": "2026-11-04T05:40:00.050582Z"
+    }
+   ],
+   "thread_id": "Thread-1 (worker)",
+   "execution_time": 0.015584945678710938,
+   "adapter_response": {
+    "_message": "OK"
+   },
+   "message": "Got 1 result, configured to warn if != 0",
+   "failures": 1,
+   "unique_id": "test.demo.assert_no_big_orders",
+   "compiled": true,
+   "compiled_code": "\nselect order_id, amount from \"demo\".\"main\".\"stg_orders\" where amount > 1000",
+   "relation_name": null,
+   "batch_results": null,
+   "overload_results": null
+  },
+  {
+   "status": "pass",
+   "timing": [
+    {
+     "name": "compile",
+     "started_at": "2026-11-04T05:40:00.055198Z",
+     "completed_at": "2026-11-04T05:40:00.063861Z"
+    },
+    {
+     "name": "execute",
+     "started_at": "2026-11-04T05:40:00.064297Z",
+     "completed_at": "2026-11-04T05:40:00.072892Z"
+    }
+   ],
+   "thread_id": "Thread-1 (worker)",
+   "execution_time": 0.020732402801513672,
+   "adapter_response": {
+    "_message": "OK"
+   },
+   "message": null,
+   "failures": 0,
+   "unique_id": "test.demo.not_null_stg_orders_order_id.81cfe2fe64",
+   "compiled": true,
+   "compiled_code": "\n    \n    \n\n\n\nselect order_id\nfrom \"demo\".\"main\".\"stg_orders\"\nwhere order_id is null\n\n\n",
+   "relation_name": null,
+   "batch_results": null,
+   "overload_results": null
+  },
+  {
+   "status": "pass",
+   "timing": [
+    {
+     "name": "compile",
+     "started_at": "2026-11-04T05:40:00.079213Z",
+     "completed_at": "2026-11-04T05:40:00.086788Z"
+    },
+    {
+     "name": "execute",
+     "started_at": "2026-11-04T05:40:00.087206Z",
+     "completed_at": "2026-11-04T05:40:00.095796Z"
+    }
+   ],
+   "thread_id": "Thread-1 (worker)",
+   "execution_time": 0.01927495002746582,
+   "adapter_response": {
+    "_message": "OK"
+   },
+   "message": null,
+   "failures": 0,
+   "unique_id": "test.demo.unique_stg_orders_order_id.e3b841c71a",
+   "compiled": true,
+   "compiled_code": "\n    \n    \n\nselect\n    order_id as unique_field,\n    count(*) as n_records\n\nfrom \"demo\".\"main\".\"stg_orders\"\nwhere order_id is not null\ngroup by order_id\nhaving count(*) > 1\n\n\n",
+   "relation_name": null,
+   "batch_results": null,
+   "overload_results": null
+  },
+  {
+   "status": "skipped",
+   "timing": [],
+   "thread_id": "Thread-1 (worker)",
+   "execution_time": 0,
+   "adapter_response": {},
+   "message": null,
+   "failures": null,
+   "unique_id": "model.demo.fct_orders",
+   "compiled": false,
+   "compiled_code": null,
+   "relation_name": "\"demo\".\"main\".\"fct_orders\"",
+   "batch_results": null,
+   "overload_results": null
+  },
+  {
+   "status": "skipped",
+   "timing": [],
+   "thread_id": "Thread-1 (worker)",
+   "execution_time": 0,
+   "adapter_response": {},
+   "message": null,
+   "failures": null,
+   "unique_id": "test.demo.unique_fct_orders_order_id.523ddb6ce5",
+   "compiled": false,
+   "compiled_code": null,
+   "relation_name": null,
+   "batch_results": null,
+   "overload_results": null
+  }
+ ],
+ "elapsed_time": 0.5218799114227295,
+ "args": {
+  "macro_debugging": false,
+  "show_all_deprecations": false,
+  "exclude_resource_types": [],
+  "validate_macro_args": true,
+  "upload_to_artifacts_ingest_api": false,
+  "require_explicit_package_overrides_for_builtin_materializations": true,
+  "require_corrected_analysis_fqns": false,
+  "support_custom_ref_kwargs": false,
+  "log_level": "info",
+  "log_path": "/REDACTED/log_path",
+  "require_ref_searches_node_package_before_root": false,
+  "partial_parse": true,
+  "log_level_file": "debug",
+  "enable_grouped_warn_error_parser_logs": false,
+  "export_saved_queries": false,
+  "maximum_seed_size_mib": 1,
+  "vars": {},
+  "require_nested_cumulative_type_params": true,
+  "show_resource_report": false,
+  "snowflake_projects_otel": false,
+  "require_generic_test_arguments_property": true,
+  "partial_parse_file_diff": true,
+  "send_anonymous_usage_stats": true,
+  "static_parser": true,
+  "require_valid_schema_from_generate_schema_name": false,
+  "state_modified_compare_more_unrendered_values": true,
+  "project_dir": "/REDACTED/project_dir",
+  "require_all_warnings_handled_by_warn_error": true,
+  "select": [],
+  "defer": false,
+  "quiet": false,
+  "use_colors_file": true,
+  "show": false,
+  "log_file_max_bytes": 10485760,
+  "empty": false,
+  "v2_parser": "dbt-core-experimental-parser parse",
+  "write_json": true,
+  "allow_jinja_file_extensions": false,
+  "invocation_command": "dbt build",
+  "strict_mode": false,
+  "state_modified_compare_vars": false,
+  "populate_cache": true,
+  "skip_nodes_if_on_run_start_fails": true,
+  "cache_selected_only": false,
+  "indirect_selection": "eager",
+  "latest_version_pointer_enabled_by_default": false,
+  "use_fast_test_edges": false,
+  "sqlparse": {
+   "MAX_GROUPING_DEPTH": null,
+   "MAX_GROUPING_TOKENS": null
+  },
+  "log_format": "default",
+  "log_format_file": "debug",
+  "introspect": true,
+  "use_colors": true,
+  "require_batched_execution_for_custom_microbatch_strategy": true,
+  "print": true,
+  "source_freshness_run_project_hooks": true,
+  "require_unique_project_resource_names": false,
+  "version_check": true,
+  "require_yaml_configuration_for_mf_time_spines": true,
+  "profiles_dir": ".",
+  "require_source_and_semantic_model_names_without_spaces": false,
+  "printer_width": 80,
+  "use_catalogs_v2": false,
+  "use_v2_parser": false,
+  "include_saved_query": false,
+  "which": "build",
+  "exclude": [],
+  "favor_state": false,
+  "resource_types": [],
+  "require_sql_header_in_test_configs": false,
+  "hints_enabled": true,
+  "require_resource_names_without_spaces": true,
+  "warn_error_options": {
+   "error": [],
+   "warn": [],
+   "silence": []
+  }
+ }
+}

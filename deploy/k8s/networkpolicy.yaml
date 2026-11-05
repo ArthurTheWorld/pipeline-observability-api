@@ -1,0 +1,22 @@
+# Só entra tráfego de namespaces rotulados access=obs-api (ex.: Grafana, job do CI); sai apenas DNS.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: obs-api
+  namespace: obs-api
+spec:
+  podSelector:
+    matchLabels: {app: obs-api}
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels: {access: obs-api}
+      ports:
+        - {port: 8000, protocol: TCP}
+  egress:
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - {port: 53, protocol: UDP}
+        - {port: 53, protocol: TCP}
